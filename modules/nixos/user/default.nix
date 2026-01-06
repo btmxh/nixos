@@ -33,7 +33,7 @@ in
     };
     email = mkOption {
       type = types.str;
-      default = "nam8.gb@gmail.com";
+      default = "ngoduyanh.chip@gmail.com";
       description = "My email";
     };
     homeDir = mkOption {
