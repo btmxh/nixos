@@ -1,42 +1,61 @@
+# Neovim editor options (opts)
+# Configure editor behavior, appearance, and preferences
 { lib, ... }:
 let
   inherit (lib.nixvim) mkRaw;
 in
 {
   opts = {
-    number = true;
-    relativenumber = true;
-    termguicolors = true;
-    ignorecase = true;
-    smartcase = true;
-    splitright = true;
-    splitbelow = true;
-    list = true;
-    listchars = mkRaw "{ tab = '» ', trail = '·', nbsp = '␣' }";
-    expandtab = true;
-    tabstop = 4;
-    shiftwidth = 2;
-    softtabstop = 0;
-    smarttab = true;
+    # Line numbers
+    number = true; # Show line numbers
+    relativenumber = true; # Show relative line numbers
+
+    # Appearance
+    termguicolors = true; # Enable 24-bit RGB colors
+    cursorline = true; # Highlight current line
+    ruler = true; # Show cursor position
+    list = true; # Show invisible characters
+    listchars = mkRaw "{ tab = '» ', trail = '·', nbsp = '␣' }"; # Define invisible chars
+
+    # Search behavior
+    ignorecase = true; # Case insensitive search
+    smartcase = true; # Case sensitive when uppercase present
+    gdefault = true; # Global flag for substitute by default
+
+    # Split behavior
+    splitright = true; # New vertical splits open to the right
+    splitbelow = true; # New horizontal splits open below
+
+    # Indentation
+    expandtab = true; # Use spaces instead of tabs
+    tabstop = 4; # Number of spaces a tab counts for
+    shiftwidth = 2; # Number of spaces for each indentation level
+    softtabstop = 0; # Number of spaces for tab in insert mode
+    smarttab = true; # Smart tab behavior
+
+    # Clipboard integration
     clipboard = {
-      providers.wl-copy.enable = true;
-      register = "unnamedplus";
+      providers.wl-copy.enable = true; # Wayland clipboard support
+      register = "unnamedplus"; # Use system clipboard
     };
+
+    # File encoding
     encoding = "utf-8";
     fileencoding = "utf-8";
 
-    undofile = true;
-    swapfile = true;
-    backup = false;
-    autoread = true;
+    # File handling
+    undofile = true; # Enable persistent undo
+    swapfile = true; # Enable swap files
+    backup = false; # Disable backup files
+    autoread = true; # Auto-reload changed files
 
-    cursorline = true;
-    ruler = true;
-    gdefault = true;
-    scrolloff = 5;
-    foldmethod = "expr";
-    foldexpr = "v:lua.vim.lsp.foldexpr()";
-    foldlevel = 99;
-    foldlevelstart = 99;
+    # Scrolling
+    scrolloff = 5; # Minimum lines to keep above/below cursor
+
+    # Code folding
+    foldmethod = "expr"; # Use expression for folding
+    foldexpr = "v:lua.vim.lsp.foldexpr()"; # LSP-based folding
+    foldlevel = 99; # Start with all folds open
+    foldlevelstart = 99; # Start with all folds open on file open
   };
 }

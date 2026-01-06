@@ -1,9 +1,14 @@
+# Neovim keymaps configuration
+# Organized by functionality with clear groupings
 { lib, ... }:
 let
   inherit (lib.nixvim) mkRaw;
 in
 {
   keymaps = [
+    # ─────────────────────────────────────────────────────────
+    # Command mode shortcuts
+    # ─────────────────────────────────────────────────────────
     {
       key = ";";
       action = ":";
@@ -12,16 +17,29 @@ in
       key = ";;";
       action = ";";
     }
+
+    # ─────────────────────────────────────────────────────────
+    # Help & Discovery
+    # ─────────────────────────────────────────────────────────
     {
       key = "<leader>?";
       action = mkRaw "function() require(\"which-key\").show({ global = false }) end";
       options.desc = "Buffer-local keymaps (which-key)";
     }
+
+    # ─────────────────────────────────────────────────────────
+    # Git Integration
+    # ─────────────────────────────────────────────────────────
     {
       key = "<leader>lg";
       action = "<cmd>LazyGit<cr>";
       options.desc = "LazyGit";
     }
+
+    # ─────────────────────────────────────────────────────────
+    # Window Navigation
+    # ─────────────────────────────────────────────────────────
+    # Focus navigation (Ctrl + hjkl)
     {
       key = "<C-h>";
       action = "<C-w><C-h>";
@@ -42,6 +60,8 @@ in
       action = "<C-w><C-l>";
       options.desc = "Move focus to right window";
     }
+
+    # Window movement (Ctrl + Shift + hjkl)
     {
       key = "<C-S-h>";
       action = "<C-w>H";
@@ -63,9 +83,9 @@ in
       options.desc = "Move window to right";
     }
 
-    # ─────────────────────────────
-    # Split keybinds
-    # ─────────────────────────────
+    # ─────────────────────────────────────────────────────────
+    # Split Management
+    # ─────────────────────────────────────────────────────────
     {
       key = "<leader>ph";
       action = "<cmd>split<cr>";
@@ -87,6 +107,9 @@ in
       options.desc = "Open vertical terminal split";
     }
 
+    # ─────────────────────────────────────────────────────────
+    # Search (Telescope)
+    # ─────────────────────────────────────────────────────────
     {
       key = "<leader>sf";
       action = mkRaw "require('telescope.builtin').find_files";
@@ -97,20 +120,28 @@ in
       action = mkRaw "require('telescope.builtin').live_grep";
       options.desc = "Search by Grep (Telescope)";
     }
+
+    # ─────────────────────────────────────────────────────────
+    # LSP & Formatting
+    # ─────────────────────────────────────────────────────────
     {
       key = "<leader>f";
       action = mkRaw "vim.lsp.buf.format";
       options.desc = "Format buffer (LSP)";
     }
+
+    # ─────────────────────────────────────────────────────────
+    # File Management
+    # ─────────────────────────────────────────────────────────
     {
       key = "-";
       action = "<cmd>Oil<cr>";
       options.desc = "Open parent directory (oil.nvim)";
     }
 
-    # ─────────────────────────────
-    # Visual mode line movement
-    # ─────────────────────────────
+    # ─────────────────────────────────────────────────────────
+    # Visual Mode - Line Movement
+    # ─────────────────────────────────────────────────────────
     {
       mode = "v";
       key = "J";
@@ -124,9 +155,9 @@ in
       options.desc = "Move line up";
     }
 
-    # ─────────────────────────────
-    # Make current buffer executable
-    # ─────────────────────────────
+    # ─────────────────────────────────────────────────────────
+    # Script Utilities
+    # ─────────────────────────────────────────────────────────
     {
       key = "<leader>x";
       action = mkRaw ''
