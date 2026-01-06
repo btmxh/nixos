@@ -51,6 +51,7 @@ in
             telescope.enable = true;
             web-devicons.enable = true;
             lazygit.enable = true;
+            nvim-autopairs.enable = true;
             treesitter = {
               enable = true;
 
