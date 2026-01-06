@@ -41,23 +41,40 @@ in
 
   config = mkIf cfg.enable {
     home-manager.users.${user.name} = {
-      services.hyprpaper = mkIf cfg.wallpaper.enable {
-        enable = true;
-        settings = {
-          preload = [
-            cfg.wallpaper.path
-          ];
-          wallpaper = [
-            ",${cfg.wallpaper.path}"
-          ];
+      services = {
+        hyprpaper = mkIf cfg.wallpaper.enable {
+          enable = true;
+          settings = {
+            preload = [
+              cfg.wallpaper.path
+            ];
+            wallpaper = [
+              ",${cfg.wallpaper.path}"
+            ];
+          };
         };
+        mako.enable = true;
+        wl-clip-persist.enable = true;
       };
 
-      programs.ghostty = {
-        enable = true;
-        settings.background-opacity = "0.8";
+      programs = {
+        ghostty = {
+          enable = true;
+          settings.background-opacity = "0.8";
+        };
+        satty.enable = true;
       };
-      services.mako.enable = true;
+
+      gtk.iconTheme = {
+        package = pkgs.adwaita-icon-theme;
+        name = "adwaita-icon-theme";
+      };
+
+      home.sessionVariables = {
+        WLR_NO_HARDWARE_CURSORS = "1";
+        NIXOS_OZONE_WL = "1";
+        GRIMBLAST_EDITOR = "satty --filename";
+      };
 
       programs.rofi = {
         enable = true;
@@ -69,7 +86,6 @@ in
         extraConfig = ''
           exec-once = hyprpaper
           exec-once = waybar
-          exec-once = mako
           exec-once = discord
 
           monitor = eDP-1, 1920x1080@165, auto, 1
@@ -186,6 +202,20 @@ in
             # Scroll workspaces
             "$mainMod, mouse_down, workspace, e+1"
             "$mainMod, mouse_up, workspace, e-1"
+
+            # Screenshots
+            ", Print, exec, grimblast copy area"
+            "SHIFT, Print, exec, grimblast edit area"
+            "CTRL, Print, exec, grimblast copy screen"
+            "CTRL SHIFT, Print, exec, grimblast edit screen"
+            "SUPER, Print, exec, grimblast copy active"
+            "SUPER SHIFT, Print, exec, grimblast edit active"
+
+            # Group
+            "$mainMod, G, togglegroup"
+            "$mainMod SHIFT, G, moveoutofgroup"
+            "$mainMod CTRL, J, changegroupactive, f"
+            "$mainMod CTRL, K, changegroupactive, b"
           ];
 
           bindm = [
@@ -217,11 +247,6 @@ in
       xwayland.enable = true;
     };
 
-    environment.sessionVariables = {
-      WLR_NO_HARDWARE_CURSORS = "1";
-      NIXOS_OZONE_WL = "1";
-    };
-
     hardware = {
       graphics.enable = true;
       nvidia = {
@@ -233,7 +258,11 @@ in
     services.xserver.videoDrivers = [ "nvidia" ];
 
     environment.systemPackages = with pkgs; [
+      wl-clipboard
+      brightnessctl
+      grimblast
       libnotify
+      xdg-desktop-portal-gtk
     ];
 
   };
