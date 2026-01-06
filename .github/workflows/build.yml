@@ -70,19 +70,4 @@ jobs:
         run: cp config.user.nix.example config.user.nix
 
       - name: Build Nix Flake
-        run: |
-          git add .
-
-          echo "Building Flake..."
-          if nix build --extra-experimental-features 'nix-command flakes' nix build .#nixosConfigurations.mine.config.system.build.toplevel; then
-            echo "success=true" >> $GITHUB_ENV
-          else
-            echo "Build failed, listing flake.lock for debugging:"
-            cat flake.lock
-            echo "success=false" >> $GITHUB_ENV
-            exit 1
-          fi
-
-      - name: Determine build result
-        id: build-result
-        run: echo "success=${{ env.success }}" >> $GITHUB_OUTPUT
+        run: nix build --extra-experimental-features 'nix-command flakes' .#nixosConfigurations.mine.config.system.build.toplevel
