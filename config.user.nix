@@ -67,15 +67,18 @@
             path = "/mnt/cocker/docker";
           };
         };
+        dev.rust.enable = true;
         cli.essential.enable = true;
         cli.zoxide.enable = true;
         i18n.fcitx5.enable = true;
+        shell.bash.rebuild = {
+          enable = true;
+          nixosDir = "$HOME/dev/nixos";
+        };
       };
     };
 
     # docker drive
-    # NOTE: this is for MY setting only, DO NOT USE THIS if you don't know
-    # what this does
     fileSystems."/mnt/cocker" = {
       device = "/dev/nvme0n1p4";
       fsType = "ext4";
