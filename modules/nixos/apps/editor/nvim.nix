@@ -32,7 +32,10 @@ in
           enable = true;
           defaultEditor = mkIf cfg.default true;
 
-          globals.mapleader = " ";
+          globals = {
+            mapleader = " ";
+            copilot_nes_debounce = 500;
+          };
 
           colorschemes.catppuccin.enable = true;
 
@@ -81,6 +84,45 @@ in
                 };
               };
             };
+
+            blink-cmp = {
+              enable = true;
+              settings.sources = {
+                default = [
+                  "copilot"
+                  "lsp"
+                  "path"
+                  "snippets"
+                  "buffer"
+                ];
+                providers = {
+                  copilot = {
+                    name = "copilot";
+                    module = "blink-copilot";
+                    score_offset = 100;
+                    async = true;
+                  };
+                };
+              };
+            };
+
+            copilot-lua = {
+              enable = true;
+              settings = {
+                nes = {
+                  enabled = true;
+                  keymap = {
+                    accept_and_goto = "<leader>y";
+                    accept = false;
+                    dismiss = "<Esc>";
+                  };
+                };
+              };
+            };
+            copilot-lsp = {
+              enable = true;
+            };
+            blink-copilot.enable = true;
           };
 
           opts = {
