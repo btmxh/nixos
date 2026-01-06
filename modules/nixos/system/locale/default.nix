@@ -1,6 +1,11 @@
 { lib, config, ... }:
 let
-  inherit (lib) mkIf mkEnableOption mkOption types;
+  inherit (lib)
+    mkIf
+    mkEnableOption
+    mkOption
+    types
+    ;
   cfg = config.mine.system.timezone;
 in
 {
@@ -8,7 +13,7 @@ in
     enable = mkEnableOption "Enable timezone";
     location = mkOption {
       type = types.str;
-      default = "Japan/Tokyo";
+      default = "Asia/Tokyo";
       description = "Timezone location";
     };
   };

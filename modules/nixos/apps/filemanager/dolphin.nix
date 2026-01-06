@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkEnableOption mkIf;
   inherit (config.mine) user;
@@ -18,4 +23,3 @@ in
     services.udisks2.enable = mkIf cfg.udisk2 true;
   };
 }
-

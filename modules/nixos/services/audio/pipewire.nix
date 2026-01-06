@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   inherit (lib) mkEnableOption mkIf;
   inherit (config.mine) user;
@@ -13,14 +18,14 @@ in
     environment.systemPackages = with pkgs; [
       pwvucontrol
     ];
-  security.rtkit.enable = true;
-  services.pipewire = {
-  	enable = true;
-	alsa.enable = true;
-	alsa.support32Bit = true;
-	pulse.enable = true;
-	jack.enable = true;
-  };
+    security.rtkit.enable = true;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      jack.enable = true;
+    };
 
   };
 }

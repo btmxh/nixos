@@ -6,18 +6,18 @@
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (config.mine) user;
-  cfg = config.mine.apps.dev.git;
+  cfg = config.mine.apps.cli.essential;
 in
 {
-  options.mine.apps.dev.git = {
-    enable = mkEnableOption "Enable Git";
+  options.mine.apps.cli.essential = {
+    enable = mkEnableOption "Enable essential CLI tools";
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      git
-      gh
+      ripgrep
+      bottom
+      killall
     ];
   };
 }

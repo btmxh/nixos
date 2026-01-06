@@ -1,1 +1,3 @@
-/configuration.user.nix
+/config.user.nix
+# /hardware-configuration.nix
+/.pre-commit-config.yaml

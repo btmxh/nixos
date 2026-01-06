@@ -6,9 +6,14 @@
 }:
 let
 
-  inherit (lib) mkEnableOption mkOption mkIf types;
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types
+    ;
   inherit (lib.thurs) mkOpt;
-  # inherit (config.mine) user;
+  inherit (config.mine) user;
   cfg = config.mine.system.networking.networkmanager;
 
 in
@@ -32,7 +37,7 @@ in
       ];
     };
 
-    # users.users.${user.name}.extraGroups = [ "networkmanager" ];
+    users.users.${user.name}.extraGroups = [ "networkmanager" ];
     systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
     programs.nm-applet.enable = mkIf cfg.applet true;
   };
