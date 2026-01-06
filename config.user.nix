@@ -60,10 +60,25 @@
           userEmail = "ngoduyanh.chip@gmail.com";
           defaultBranch = "master";
         };
+        dev.docker = {
+          enable = true;
+          customPath = {
+            enable = true;
+            path = "/mnt/cocker/docker";
+          };
+        };
         cli.essential.enable = true;
         cli.zoxide.enable = true;
         i18n.fcitx5.enable = true;
       };
+    };
+
+    # docker drive
+    # NOTE: this is for MY setting only, DO NOT USE THIS if you don't know
+    # what this does
+    fileSystems."/mnt/cocker" = {
+      device = "/dev/nvme0n1p4";
+      fsType = "ext4";
     };
 
     nix.settings.experimental-features = [

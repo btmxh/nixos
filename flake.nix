@@ -66,6 +66,7 @@
           ./modules/nixos/apps/chat/discord.nix
 
           ./modules/nixos/apps/dev/git.nix
+          ./modules/nixos/apps/dev/docker.nix
 
           ./modules/nixos/apps/editor/nvim.nix
           ./modules/nixos/apps/editor/helix.nix
