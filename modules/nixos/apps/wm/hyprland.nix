@@ -59,13 +59,19 @@ in
       };
       services.mako.enable = true;
 
-      programs.rofi.enable = true;
+      programs.rofi = {
+        enable = true;
+        theme = "Arc-Dark";
+      };
 
       wayland.windowManager.hyprland = {
         enable = true;
         extraConfig = ''
-          exec-once = hyprpaper & waybar & mako &
+          exec-once = hyprpaper
+          exec-once = waybar
+          exec-once = mako
           exec-once = discord
+
           monitor = eDP-1, 1920x1080@165, auto, 1
           monitor = HDMI-A-1, 1920x1080@75, auto-left, 1
         '';
