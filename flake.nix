@@ -35,10 +35,11 @@
     {
       nixosConfigurations.mine = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
+        # pkgs = import nixpkgs { inherit system; config.allowUnfree = true;};
         modules = [
-          inputs.home-manager.nixosModules.default
           ./hardware-configuration.nix
           ./config.user.nix
+          inputs.home-manager.nixosModules.default
           ./modules/nixos/system/boot/systemd.nix
           ./modules/nixos/system/locale/default.nix
           ./modules/nixos/system/networking/networkmanager.nix
@@ -56,7 +57,6 @@
 
           ./modules/nixos/apps/shell/bash.nix
           ./modules/nixos/apps/shell/direnv.nix
-          ./modules/nixos/apps/cli/essential.nix
           ./modules/nixos/apps/cli/zoxide.nix
 
           ./modules/nixos/apps/i18n/fcitx5.nix

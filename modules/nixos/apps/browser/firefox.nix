@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }:
 let
@@ -15,8 +14,10 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      firefox
-    ];
+    home-manager.users.${user.name} = {
+      programs.firefox = {
+        enable = true;
+      };
+    };
   };
 }

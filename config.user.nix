@@ -1,7 +1,17 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   config = {
+    # Allow unfree packages
     nixpkgs.config.allowUnfree = true;
+    home-manager.users.ayaneso = {
+      nixpkgs.config = {
+        allowUnfreePredicate =
+          pkg:
+          builtins.elem (lib.getName pkg) [
+            "discord"
+          ];
+      };
+    };
 
     mine = {
       user = {
@@ -68,8 +78,6 @@
             path = "/mnt/cocker/docker";
           };
         };
-        # dev.rust.enable = true;
-        cli.essential.enable = true;
         cli.zoxide.enable = true;
         i18n.fcitx5.enable = true;
         shell = {
