@@ -39,7 +39,8 @@ in
     users.users.${user.name}.extraGroups = [ "docker" ];
 
     # Enable nvidia-container-toolkit only if NVIDIA graphics drivers are enabled
-    hardware.nvidia-container-toolkit.enable = mkIf (config.mine.system.graphics.nvidia.enable or false) true;
+    hardware.nvidia-container-toolkit.enable =
+      mkIf (config.mine.system.graphics.nvidia.enable or false) true;
 
     environment.systemPackages = with pkgs; [
       docker-compose
