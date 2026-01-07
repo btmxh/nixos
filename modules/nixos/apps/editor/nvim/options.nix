@@ -5,6 +5,12 @@ let
   inherit (lib.nixvim) mkRaw;
 in
 {
+  # Clipboard integration
+  clipboard = {
+    providers.wl-copy.enable = true; # Wayland clipboard support
+    register = "unnamedplus"; # Use system clipboard
+  };
+
   opts = {
     # Line numbers
     number = true; # Show line numbers
@@ -32,12 +38,6 @@ in
     shiftwidth = 2; # Number of spaces for each indentation level
     softtabstop = 0; # Number of spaces for tab in insert mode
     smarttab = true; # Smart tab behavior
-
-    # Clipboard integration
-    clipboard = {
-      providers.wl-copy.enable = true; # Wayland clipboard support
-      register = "unnamedplus"; # Use system clipboard
-    };
 
     # File encoding
     encoding = "utf-8";
