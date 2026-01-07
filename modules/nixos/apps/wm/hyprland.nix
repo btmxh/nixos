@@ -56,16 +56,6 @@ in
             ];
           };
         };
-        mako.enable = true;
-        wl-clip-persist.enable = true;
-      };
-
-      programs = {
-        ghostty = {
-          enable = true;
-          settings.background-opacity = "0.8";
-        };
-        satty.enable = true;
       };
 
       gtk.iconTheme = {
@@ -76,12 +66,6 @@ in
       home.sessionVariables = {
         WLR_NO_HARDWARE_CURSORS = "1";
         NIXOS_OZONE_WL = "1";
-        GRIMBLAST_EDITOR = "satty --filename";
-      };
-
-      programs.rofi = {
-        enable = true;
-        theme = "Arc-Dark";
       };
 
       wayland.windowManager.hyprland = {
@@ -250,21 +234,7 @@ in
       xwayland.enable = true;
     };
 
-    hardware = {
-      graphics.enable = true;
-      nvidia = {
-        modesetting.enable = true;
-        open = true;
-      };
-    };
-
-    services.xserver.videoDrivers = [ "nvidia" ];
-
     environment.systemPackages = with pkgs; [
-      wl-clipboard
-      brightnessctl
-      grimblast
-      libnotify
       xdg-desktop-portal-gtk
     ];
 

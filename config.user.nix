@@ -34,6 +34,7 @@
           applet = true;
         };
         theme.dark.enable = true;
+        graphics.nvidia.enable = true;
       };
 
       services = {
@@ -51,6 +52,15 @@
         };
         wm.waybar = {
           enable = true;
+        };
+        terminal.ghostty.enable = true;
+        launcher.rofi.enable = true;
+        utils = {
+          screenshots.enable = true;
+          brightness.enable = true;
+          media.enable = true;
+          notifications.enable = true;
+          clipboard.enable = true;
         };
         browser.firefox.enable = true;
         browser.zen.enable = true;
