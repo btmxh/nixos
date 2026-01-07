@@ -45,6 +45,7 @@
           ./modules/nixos/system/networking/networkmanager.nix
 
           ./modules/nixos/system/theme/dark.nix
+          ./modules/nixos/system/graphics/nvidia.nix
 
           ./modules/nixos/fonts/default.nix
 
@@ -75,6 +76,14 @@
           ./modules/nixos/apps/editor/helix.nix
 
           ./modules/nixos/apps/filemanager/dolphin.nix
+
+          ./modules/nixos/apps/terminal/ghostty.nix
+          ./modules/nixos/apps/launcher/rofi.nix
+          ./modules/nixos/apps/screenshot/grimblast.nix
+          ./modules/nixos/apps/cli/brightness.nix
+          ./modules/nixos/apps/cli/media.nix
+          ./modules/nixos/apps/notification/mako.nix
+          ./modules/nixos/apps/clipboard/wl-clipboard.nix
 
           ./modules/nixos/apps/wm/hyprland.nix
           ./modules/nixos/apps/wm/waybar/default.nix
