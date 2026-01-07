@@ -28,6 +28,7 @@ in
     # Home-manager configuration
     home-manager.users.${user.name} = {
       imports = [ inputs.nixvim.homeModules.default ];
+      programs.ripgrep.enable = true; # Enable ripgrep for searching within Neovim
       programs.nixvim = {
         enable = true;
         defaultEditor = mkIf cfg.default true;
