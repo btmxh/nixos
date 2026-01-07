@@ -9,6 +9,10 @@
 let
   inherit (lib) mkIf;
   inherit (lsp) skipInstallServers;
+  enabled = {
+    enable = true;
+    package = mkIf skipInstallServers null;
+  };
 in
 {
   plugins = {
@@ -57,10 +61,7 @@ in
     };
 
     # Lua language server
-    lua_ls = {
-      enable = true;
-      package = mkIf skipInstallServers null;
-    };
+    lua_ls = enabled;
 
     # Nix language server
     nixd = {
@@ -68,5 +69,15 @@ in
       package = mkIf skipInstallServers null;
       config.nixd.formatting.command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
     };
+
+    # Web dev
+    eslint = enabled;
+    html = enabled;
+    emmet_language_server = enabled;
+    cssls = enabled;
+    tailwindcss = enabled;
+    # NOTE: deno and ts_ls really hates each other, install only one of them in your devenv
+    ts_ls = enabled;
+    denols = enabled;
   };
 }
