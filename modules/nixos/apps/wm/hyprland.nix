@@ -44,6 +44,7 @@ in
         hyprpaper = mkIf cfg.wallpaper.enable {
           enable = true;
           settings = {
+            splash = false;
             wallpaper = [
               {
                 monitor = "eDP-1";
@@ -88,11 +89,29 @@ in
         enable = true;
         extraConfig = ''
           exec-once = hyprpaper
+
           exec-once = waybar
-          exec-once = discord
+          exec-once = [workspace 10 silent] discord
 
           monitor = eDP-1, 1920x1080@165, auto, 1
           monitor = HDMI-A-1, 1920x1080@75, auto-left, 1
+          # Work browser
+          workspace = 1, default:true
+          # Work (coding, art, etc.)
+          # workspace = 2, monitor:eDP-1 # project 1
+          # workspace = 3, monitor:eDP-1 # extra project 1
+          # workspace = 4, monitor:eDP-1 # project 2
+          # workspace = 5, monitor:eDP-1 # extra project 2
+          # Temporaries
+          workspace = 6, monitor:eDP-1
+          # System stuff
+          workspace = 7, monitor:eDP-1
+          # Gaming
+          # workspace = 8, monitor:eDP-1
+          # Ambient browser (streams, music, etc.)
+          workspace = 9, monitor:HDMI-A-1, default:true
+          # Discord
+          workspace = 10, monitor:eDP-1
         '';
 
         settings = {
@@ -240,6 +259,10 @@ in
             ",XF86AudioPause, exec, playerctl play-pause"
             ",XF86AudioPlay, exec, playerctl play-pause"
             ",XF86AudioPrev, exec, playerctl previous"
+          ];
+
+          windowrule = [
+            "match:class discord, workspace 10"
           ];
         };
       };
