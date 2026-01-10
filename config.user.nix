@@ -25,6 +25,13 @@
         };
       };
 
+      agentUser = {
+        enable = true;
+        name = "aiagent";
+        email = "agent@ai.com";
+        shell.package = pkgs.bash;
+      };
+
       system = {
         boot.systemd.enable = true;
         timezone.enable = true;
@@ -96,6 +103,11 @@
             enable = true;
             nixosDir = "$HOME/dev/nixos";
           };
+        };
+        viewer = {
+          mpv.enable = true;
+          imv.enable = true;
+          sioyek.enable = true;
         };
       };
     };

@@ -53,6 +53,7 @@
           ./modules/nixos/services/remap/interception-tools.nix
 
           ./modules/nixos/user/default.nix
+          ./modules/nixos/user/agent.nix
           ./modules/nixos/user/home-manager/default.nix
           ./modules/nixos/user/starship/default.nix
 
@@ -84,6 +85,10 @@
           ./modules/nixos/apps/cli/media.nix
           ./modules/nixos/apps/notification/mako.nix
           ./modules/nixos/apps/clipboard/wl-clipboard.nix
+
+          ./modules/nixos/apps/viewer/mpv.nix
+          ./modules/nixos/apps/viewer/imv.nix
+          ./modules/nixos/apps/viewer/sioyek.nix
 
           ./modules/nixos/apps/wm/hyprland.nix
           ./modules/nixos/apps/wm/waybar/default.nix
