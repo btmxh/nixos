@@ -141,6 +141,35 @@ in
     }
 
     # ─────────────────────────────────────────────────────────
+    # LSP-specific functionalities
+    # ─────────────────────────────────────────────────────────
+    {
+      key = "gpm";
+      action = mkRaw ''
+        function()
+          local exec = false
+          for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+            if client.name == "tinymist" then
+              client:exec_cmd({
+                title = 'tinymist/pinMain',
+                command = 'tinymist.pinMain',
+                arguments = { vim.api.nvim_buf_get_name(0) },
+              })
+              exec = true
+            end
+          end
+
+          if exec then
+            vim.notify("Pinned main Typst file for tinymist LSP", vim.log.levels.INFO)
+          else
+            vim.notify("tinymist LSP not active in this buffer", vim.log.levels.WARN)
+          end
+        end
+      '';
+      options.desc = "Pin main Typst file";
+    }
+
+    # ─────────────────────────────────────────────────────────
     # File Management
     # ─────────────────────────────────────────────────────────
     {

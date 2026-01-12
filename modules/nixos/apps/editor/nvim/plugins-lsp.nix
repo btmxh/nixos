@@ -70,6 +70,19 @@ in
       config.nixd.formatting.command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
     };
 
+    tinymist = {
+      enable = true;
+      package = mkIf skipInstallServers null;
+      config = {
+        settings = {
+          exportPdf = "onType";
+          outputPath = "$root/target/$dir/$name";
+          root_dir = "-";
+          formatterMode = "typstyle";
+        };
+      };
+    };
+
     # Web dev
     eslint = enabled;
     html = enabled;
