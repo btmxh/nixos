@@ -42,6 +42,9 @@
         };
         theme.dark.enable = true;
         graphics.nvidia.enable = true;
+        udev = {
+          stlink.enable = true;
+        };
       };
 
       services = {

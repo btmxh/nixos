@@ -46,6 +46,7 @@
 
           ./modules/nixos/system/theme/dark.nix
           ./modules/nixos/system/graphics/nvidia.nix
+          ./modules/nixos/system/udev/stlink.nix
 
           ./modules/nixos/fonts/default.nix
 
