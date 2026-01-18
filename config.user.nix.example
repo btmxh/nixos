@@ -54,6 +54,12 @@
         };
         browser.firefox.enable = true;
         browser.zen.enable = true;
+        # Set default = true to make an app the default for its MIME types
+        # browser.firefox.default = true;  # Make Firefox the default browser
+        # browser.zen.default = true;      # Or make Zen the default browser
+        # viewer.imv.default = true;       # Make imv the default image viewer
+        # viewer.mpv.default = true;       # Make mpv the default media player
+        # viewer.sioyek.default = true;    # Make sioyek the default PDF viewer
         chat.discord.enable = true;
         editor.nvim = {
           enable = true;
