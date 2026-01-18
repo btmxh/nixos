@@ -11,6 +11,7 @@ in
 {
   options.mine.apps.browser.chromium = {
     enable = mkEnableOption "Enable Chromium browser";
+    default = mkEnableOption "Make Chromium the default browser";
   };
 
   config = mkIf cfg.enable {

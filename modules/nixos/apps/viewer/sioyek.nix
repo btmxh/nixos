@@ -12,6 +12,7 @@ in
 {
   options.mine.apps.viewer.sioyek = {
     enable = mkEnableOption "Enable sioyek PDF viewer";
+    default = mkEnableOption "Make sioyek the default PDF viewer";
   };
 
   config = mkIf cfg.enable {

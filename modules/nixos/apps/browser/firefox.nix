@@ -11,6 +11,7 @@ in
 {
   options.mine.apps.browser.firefox = {
     enable = mkEnableOption "Enable Firefox browser";
+    default = mkEnableOption "Make Firefox the default browser";
   };
 
   config = mkIf cfg.enable {

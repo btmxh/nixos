@@ -91,6 +91,8 @@
           ./modules/nixos/apps/viewer/imv.nix
           ./modules/nixos/apps/viewer/sioyek.nix
 
+          ./modules/nixos/apps/xdg/default.nix
+
           ./modules/nixos/apps/wm/hyprland.nix
           ./modules/nixos/apps/wm/waybar/default.nix
         ];

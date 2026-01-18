@@ -11,6 +11,7 @@ in
 {
   options.mine.apps.viewer.mpv = {
     enable = mkEnableOption "Enable mpv media player";
+    default = mkEnableOption "Make mpv the default media player";
   };
 
   config = mkIf cfg.enable {

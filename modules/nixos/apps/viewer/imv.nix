@@ -11,6 +11,7 @@ in
 {
   options.mine.apps.viewer.imv = {
     enable = mkEnableOption "Enable imv image viewer";
+    default = mkEnableOption "Make imv the default image viewer";
   };
 
   config = mkIf cfg.enable {
