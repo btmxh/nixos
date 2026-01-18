@@ -1,4 +1,4 @@
-name: Statix Lint
+name: Pre-commit Lints
 
 on:
   push:
