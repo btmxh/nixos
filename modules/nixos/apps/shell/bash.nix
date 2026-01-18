@@ -43,6 +43,7 @@ in
           gc = "git clone";
           cd = mkIf zoxide.enable "z";
           rebuild = mkIf cfg.rebuild.enable "nixos-rebuild switch --flake ${cfg.rebuild.nixosDir}#mine --sudo";
+          o = "xdg-open";
         };
         bashrcExtra = "eval \"$(zoxide init bash)\"";
       };
