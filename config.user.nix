@@ -73,7 +73,11 @@
         notification.mako.enable = true;
         clipboard.wl-clipboard.enable = true;
         browser.firefox.enable = true;
-        browser.zen.enable = true;
+        browser.zen = {
+          enable = true;
+          default = true;
+        };
+
         chat.discord.enable = true;
         editor.nvim = {
           enable = true;
@@ -108,9 +112,20 @@
           };
         };
         viewer = {
-          mpv.enable = true;
-          imv.enable = true;
-          sioyek.enable = true;
+          mpv = {
+            enable = true;
+            default = true;
+          };
+
+          imv = {
+            enable = true;
+            default = true;
+          };
+
+          sioyek = {
+            enable = true;
+            default = true;
+          };
         };
       };
     };
