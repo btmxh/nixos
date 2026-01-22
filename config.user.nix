@@ -45,6 +45,7 @@
         udev = {
           stlink.enable = true;
         };
+        tablet.otd.enable = true;
       };
 
       services = {
