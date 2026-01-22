@@ -58,6 +58,8 @@ in
           g = "git";
           ".." = "cd ..";
           gc = "git clone";
+          gp = "git push";
+          gs = "git status";
         };
       };
     };
