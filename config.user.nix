@@ -80,6 +80,9 @@
         };
 
         chat.discord.enable = true;
+        games = {
+          prism.enable = true;
+        };
         editor.nvim = {
           enable = true;
           default = true;

@@ -71,6 +71,8 @@
 
           ./modules/nixos/apps/chat/discord.nix
 
+          ./modules/nixos/apps/games/prism.nix
+
           ./modules/nixos/apps/dev/git.nix
           ./modules/nixos/apps/dev/rust.nix
           ./modules/nixos/apps/dev/docker.nix
