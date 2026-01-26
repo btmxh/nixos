@@ -82,6 +82,7 @@
         chat.discord.enable = true;
         games = {
           prism.enable = true;
+          osu_lazer.enable = true;
         };
         editor.nvim = {
           enable = true;
