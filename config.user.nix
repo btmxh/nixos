@@ -66,7 +66,10 @@
         };
         terminal.ghostty.enable = true;
         launcher.rofi.enable = true;
-        screenshot.grimblast.enable = true;
+        screenshot = {
+          grimblast.enable = true;
+          obs.enable = true;
+        };
         cli = {
           brightness.enable = true;
           media.enable = true;

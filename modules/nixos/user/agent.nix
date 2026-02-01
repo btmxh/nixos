@@ -70,6 +70,8 @@ in
         };
       };
 
+      programs.gh.enable = true;
+
       home = {
         username = agentUser.name;
         stateVersion = "25.11";

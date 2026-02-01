@@ -86,6 +86,7 @@
           ./modules/nixos/apps/terminal/ghostty.nix
           ./modules/nixos/apps/launcher/rofi.nix
           ./modules/nixos/apps/screenshot/grimblast.nix
+          ./modules/nixos/apps/screenshot/obs.nix
           ./modules/nixos/apps/cli/brightness.nix
           ./modules/nixos/apps/cli/media.nix
           ./modules/nixos/apps/notification/mako.nix
