@@ -14,10 +14,16 @@ in
 
   config = mkIf cfg.enable {
     hardware = {
-      graphics.enable = true;
+      graphics = {
+        enable = true;
+        enable32Bit = true;
+      };
       nvidia = {
         modesetting.enable = true;
+        powerManagement.enable = true;
+        powerManagement.finegrained = false;
         open = true;
+        nvidiaSettings = true;
       };
     };
 
