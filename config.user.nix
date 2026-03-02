@@ -87,6 +87,7 @@
           prism.enable = true;
           osu_lazer.enable = true;
         };
+        study.anki.enable = true;
         editor.nvim = {
           enable = true;
           default = true;
