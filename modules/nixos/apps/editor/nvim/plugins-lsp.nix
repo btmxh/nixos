@@ -67,7 +67,7 @@ in
     nixd = {
       enable = true;
       package = mkIf skipInstallServers null;
-      config.nixd.formatting.command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
+      config.nixd.formatting.command = [ "${lib.getExe pkgs.nixfmt}" ];
     };
 
     tinymist = {

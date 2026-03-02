@@ -142,7 +142,7 @@
           pkgs.mkShell {
             inherit shellHook;
             packages = with pkgs; [
-              nixfmt-rfc-style
+              nixfmt
               nixd
             ];
             buildInputs = enabledPackages;
