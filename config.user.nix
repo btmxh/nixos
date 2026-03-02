@@ -145,6 +145,23 @@
       fsType = "ext4";
     };
 
+    # swap file
+    swapDevices = [
+      {
+        device = "/swapfile";
+        size = 32 * 1024; # 32 GiB
+      }
+    ];
+
+    # hibernation
+    powerManagement.enable = true;
+    boot = {
+      # run: sudo filefrag -v /swapfile | head
+      kernelParams = [ "resume_offset=34277376" ];
+      # run: lsblk -f
+      resumeDevice = "/dev/disk/by-uuid/673b9226-52bc-4638-be21-a14ffccfc5f0";
+    };
+
     nix.settings.experimental-features = [
       "nix-command"
       "flakes"
