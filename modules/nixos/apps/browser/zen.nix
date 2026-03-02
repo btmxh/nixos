@@ -27,6 +27,8 @@ let
 
   extensions = [
     (extension "ublock-origin" "uBlock0@raymondhill.net")
+    (extension "tampermonkey" "firefox@tampermonkey.net")
+    (extension "youtube-speed-control" "{63eebab4-6bd0-44a0-8d79-7fefb998ebc1}")
   ];
 in
 {
