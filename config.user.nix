@@ -126,6 +126,8 @@
             default = true;
           };
 
+          spotify.enable = true;
+
           imv = {
             enable = true;
             default = true;

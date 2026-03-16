@@ -96,6 +96,7 @@
           ./modules/nixos/apps/viewer/mpv.nix
           ./modules/nixos/apps/viewer/imv.nix
           ./modules/nixos/apps/viewer/sioyek.nix
+          ./modules/nixos/apps/viewer/spotify.nix
 
           ./modules/nixos/apps/xdg/default.nix
 
