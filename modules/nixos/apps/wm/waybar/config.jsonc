@@ -6,6 +6,7 @@
     "hyprland/workspaces",
     "tray",
     "custom/suspend",
+    "custom/hibernate",
     "custom/lock",
     "custom/reboot",
     "custom/power",
@@ -64,6 +65,12 @@
     "on-click": "systemctl poweroff",
     "tooltip": true,
     "tooltip-format": "Shut down"
+  },
+  "custom/hibernate": {
+    "format": "  ",
+    "on-click": "systemctl hibernate",
+    "tooltip": true,
+    "tooltip-format": "Hibernate"
   },
   "network": {
     "format-wifi": " 󰤨 {essid} ",

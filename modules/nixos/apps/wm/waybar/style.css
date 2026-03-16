@@ -33,6 +33,7 @@
 #custom-suspend,
 #custom-power,
 #custom-reboot,
+#custom-hibernate,
 #bluetooth,
 #battery,
 #wireplumber,
@@ -55,6 +56,10 @@
 
 #custom-suspend {
 	background-color: #A0C4FF;
+}
+
+#custom-hibernate {
+  background-color: #f9e2af;
 }
 
 #custom-power {
