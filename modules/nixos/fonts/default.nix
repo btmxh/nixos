@@ -13,6 +13,7 @@ in
         noto-fonts-cjk-sans
         noto-fonts-color-emoji
         font-awesome
+        fira
       ];
 
       fonts.fontconfig.defaultFonts = {
