@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 let
@@ -14,8 +15,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    home-manager.users.${user.name} = {
-      programs.spotify.enable = true;
-    };
+    environment.systemPackages = with pkgs; [
+      spotify
+    ];
   };
 }
