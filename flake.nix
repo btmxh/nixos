@@ -102,6 +102,8 @@
 
           ./modules/nixos/apps/wm/hyprland.nix
           ./modules/nixos/apps/wm/waybar/default.nix
+
+          ./modules/nixos/apps/wiki/personal_mediawiki.nix
         ];
       };
 
