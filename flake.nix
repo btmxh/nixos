@@ -49,6 +49,7 @@
           ./modules/nixos/system/udev/stlink.nix
           ./modules/nixos/system/tablet/otd.nix
 
+          ./modules/nixos/system/bluetooth/default.nix
           ./modules/nixos/fonts/default.nix
 
           ./modules/nixos/services/audio/pipewire.nix
