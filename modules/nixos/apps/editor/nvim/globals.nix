@@ -8,4 +8,7 @@
 
   # Color scheme configuration
   colorschemes.catppuccin.enable = true;
+  filetype.extension = {
+    lyr = "lyr";
+  };
 }
