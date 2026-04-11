@@ -33,6 +33,7 @@
       };
 
       system = {
+        bluetooth.enable = true;
         boot.systemd.enable = true;
         timezone.enable = true;
         networking.networkmanager = {
@@ -120,6 +121,7 @@
             nixosDir = "$HOME/dev/nixos";
           };
         };
+        wiki.personal_mediawiki.enable = true;
         viewer = {
           mpv = {
             enable = true;
