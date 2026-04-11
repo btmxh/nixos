@@ -155,7 +155,7 @@ in
             allow_workspace_cycles = true;
           };
 
-          gestures = "3, horizontal, workspace";
+          # gestures = "3, horizontal, workspace";
 
           bind = [
             # Basic apps
