@@ -74,6 +74,7 @@
         cli = {
           brightness.enable = true;
           media.enable = true;
+          yt-dlp.enable = true;
         };
         notification.mako.enable = true;
         clipboard.wl-clipboard.enable = true;
@@ -113,6 +114,7 @@
           };
         };
         cli.zoxide.enable = true;
+        cli.comma.enable = true;
         i18n.fcitx5.enable = true;
         shell = {
           direnv.enable = true;
@@ -182,7 +184,12 @@
       localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
     };
 
-    programs.nix-ld.enable = true;
+    programs.nix-ld = {
+      enable = true;
+      libraries = [
+        pkgs.linuxPackages.nvidia_x11
+      ];
+    };
 
     # This value determines the NixOS release from which the default
     # settings for stateful data, like file locations and database versions

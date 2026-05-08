@@ -63,6 +63,7 @@
           ./modules/nixos/apps/shell/bash.nix
           ./modules/nixos/apps/shell/direnv.nix
           ./modules/nixos/apps/cli/zoxide.nix
+          ./modules/nixos/apps/cli/comma.nix
 
           ./modules/nixos/apps/i18n/fcitx5.nix
 
@@ -77,6 +78,7 @@
           ./modules/nixos/apps/study/anki.nix
 
           ./modules/nixos/apps/dev/git.nix
+          ./modules/nixos/apps/dev/llama-cpp.nix
           ./modules/nixos/apps/dev/rust.nix
           ./modules/nixos/apps/dev/docker.nix
 
@@ -91,6 +93,7 @@
           ./modules/nixos/apps/screenshot/obs.nix
           ./modules/nixos/apps/cli/brightness.nix
           ./modules/nixos/apps/cli/media.nix
+          ./modules/nixos/apps/cli/yt-dlp.nix
           ./modules/nixos/apps/notification/mako.nix
           ./modules/nixos/apps/clipboard/wl-clipboard.nix
 
