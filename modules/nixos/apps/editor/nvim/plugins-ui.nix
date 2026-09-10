@@ -1,5 +1,6 @@
 # UI and interface-related plugins
 # Status line, file explorer, fuzzy finder, etc.
+{ pkgs, ... }:
 {
   plugins = {
     # Status line
@@ -30,4 +31,6 @@
     # Auto-close brackets/quotes
     nvim-autopairs.enable = true;
   };
+
+  extraPlugins = with pkgs.vimPlugins; [ vim-rhai ];
 }

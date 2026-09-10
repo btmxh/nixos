@@ -139,6 +139,21 @@ in
       action = mkRaw "vim.lsp.buf.format";
       options.desc = "Format buffer (LSP)";
     }
+    {
+      key = "<leader>de";
+      action = mkRaw "vim.diagnostic.open_float";
+      options.desc = "Show diagnostic under cursor";
+    }
+    {
+      key = "]d";
+      action = mkRaw "vim.diagnostic.goto_next";
+      options.desc = "Next diagnostic";
+    }
+    {
+      key = "[d";
+      action = mkRaw "vim.diagnostic.goto_prev";
+      options.desc = "Previous diagnostic";
+    }
 
     # ─────────────────────────────────────────────────────────
     # LSP-specific functionalities

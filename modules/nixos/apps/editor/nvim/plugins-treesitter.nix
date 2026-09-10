@@ -1,6 +1,6 @@
 # Treesitter configuration
 # Advanced syntax highlighting and code parsing
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   treesitter-lyr-grammar = pkgs.tree-sitter.buildGrammar {
     language = "lyr";
@@ -20,21 +20,13 @@ in
     treesitter = {
       enable = true;
 
-      settings = {
-        # Indentation based on treesitter
-        indent = {
-          enable = true;
-        };
-        # Syntax highlighting
-        highlight = {
-          enable = true;
-        };
-      };
+      # Indentation and syntax highlighting based on treesitter
+      indent.enable = true;
+      highlight.enable = true;
 
       nixvimInjections = true; # Enable nixvim-specific injections
-      grammarPackages = pkgs.vimPlugins.nvim-treesitter.allGrammars ++ [ treesitter-lyr-grammar ];
+      grammarPackages = config.plugins.treesitter.package.allGrammars ++ [ treesitter-lyr-grammar ];
       languageRegister.lyr = "lyr";
-      extraConfig = ./treesitter-extra.lua;
     };
 
     # Show context at top of buffer (function/class name)

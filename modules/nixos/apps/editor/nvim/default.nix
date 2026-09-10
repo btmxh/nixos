@@ -44,9 +44,9 @@ in
           ./keymaps.nix # Keybindings
         ];
 
-        extraSpecialArgs = {
-          nvimCfg = cfg;
-        };
+        # extraSpecialArgs = {
+        #   nvimCfg = cfg;
+        # };
       };
     };
   };
