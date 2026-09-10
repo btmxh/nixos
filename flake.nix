@@ -3,16 +3,19 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    git-hooks.url = "github:cachix/git-hooks.nix";
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nixvim/nixos-26.05";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     zen-browser = {
@@ -20,6 +23,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    waybar-src = {
+      url = "github:Alexays/Waybar/master";
+      flake = false;
+    };
   };
 
   outputs =
@@ -54,6 +61,8 @@
 
           ./modules/nixos/services/audio/pipewire.nix
           ./modules/nixos/services/remap/interception-tools.nix
+          ./modules/nixos/services/openssh/default.nix
+          ./modules/nixos/services/angrr/default.nix
 
           ./modules/nixos/user/default.nix
           ./modules/nixos/user/agent.nix
@@ -69,6 +78,7 @@
 
           ./modules/nixos/apps/browser/chromium.nix
           ./modules/nixos/apps/browser/firefox.nix
+          ./modules/nixos/apps/browser/google-chrome.nix
           ./modules/nixos/apps/browser/zen.nix
 
           ./modules/nixos/apps/chat/discord.nix
@@ -77,15 +87,21 @@
           ./modules/nixos/apps/games/osu_lazer.nix
           ./modules/nixos/apps/study/anki.nix
 
+          ./modules/nixos/apps/dev/claude-code.nix
+          ./modules/nixos/apps/dev/codex.nix
           ./modules/nixos/apps/dev/git.nix
           ./modules/nixos/apps/dev/llama-cpp.nix
           ./modules/nixos/apps/dev/rust.nix
           ./modules/nixos/apps/dev/docker.nix
+          # ./modules/nixos/apps/dev/podman.nix
+
+          ./modules/nixos/apps/download/qbittorrent.nix
 
           ./modules/nixos/apps/editor/nvim/default.nix
           ./modules/nixos/apps/editor/helix.nix
 
           ./modules/nixos/apps/filemanager/dolphin.nix
+          ./modules/nixos/apps/graphics/inkscape.nix
 
           ./modules/nixos/apps/terminal/ghostty.nix
           ./modules/nixos/apps/launcher/rofi.nix
@@ -97,8 +113,9 @@
           ./modules/nixos/apps/notification/mako.nix
           ./modules/nixos/apps/clipboard/wl-clipboard.nix
 
-          ./modules/nixos/apps/viewer/mpv.nix
+          ./modules/nixos/apps/viewer/foliate.nix
           ./modules/nixos/apps/viewer/imv.nix
+          ./modules/nixos/apps/viewer/mpv.nix
           ./modules/nixos/apps/viewer/sioyek.nix
           ./modules/nixos/apps/viewer/spotify.nix
 
