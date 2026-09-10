@@ -8,7 +8,8 @@
         allowUnfreePredicate =
           pkg:
           builtins.elem (lib.getName pkg) [
-            "discord"
+            "discord-unwrapped"
+            "google-chrome"
           ];
       };
     };
@@ -52,6 +53,8 @@
       services = {
         audio.pipewire.enable = true;
         remap.interception-tools.enable = true;
+        openssh.enable = true;
+        angrr.enable = true;
       };
 
       apps = {
@@ -59,7 +62,8 @@
           enable = true;
           wallpaper = {
             enable = true;
-            path = "~/442.png";
+            path = "~/msobiggestenemy.png";
+            secondPath = "~/msosecondbiggestenemy.png";
           };
         };
         wm.waybar = {
@@ -76,9 +80,17 @@
           media.enable = true;
           yt-dlp.enable = true;
         };
-        notification.mako.enable = true;
+        notification.mako = {
+          enable = true;
+          sound = {
+            enable = true;
+            path = "/home/ayaneso/Downloads/mixkit-correct-answer-tone-2870.wav";
+          };
+        };
         clipboard.wl-clipboard.enable = true;
+        graphics.inkscape.enable = true;
         browser.firefox.enable = true;
+        browser.google-chrome.enable = true;
         browser.zen = {
           enable = true;
           default = true;
@@ -100,6 +112,8 @@
           enable = true;
           udisk2 = true;
         };
+        dev.claude-code.enable = true;
+        dev.codex.enable = true;
         dev.git = {
           enable = true;
           userName = "btmxh";
@@ -113,6 +127,7 @@
             path = "/mnt/cocker/docker";
           };
         };
+        download.qbittorrent.enable = true;
         cli.zoxide.enable = true;
         cli.comma.enable = true;
         i18n.fcitx5.enable = true;
@@ -125,9 +140,12 @@
         };
         wiki.personal_mediawiki.enable = true;
         viewer = {
+          foliate.enable = true;
+
           mpv = {
             enable = true;
             default = true;
+            bluray.enableAACS = true;
           };
 
           spotify.enable = true;
@@ -186,10 +204,57 @@
 
     programs.nix-ld = {
       enable = true;
-      libraries = [
-        pkgs.linuxPackages.nvidia_x11
+      libraries = with pkgs; [
+        linuxPackages.nvidia_x11
+        libxcb
+        libGL
+        libGLU
+        glib
+        libxcb
+        libX11
+        libXext
+        libXrender
+        libXi
+        libICE
+        libSM
       ];
     };
+
+    services.mediamtx = {
+      enable = true;
+
+      settings = {
+        # RTMP ingest
+        rtmp = true;
+        rtmpAddress = ":1935";
+
+        # WebRTC playback
+        webrtc = true;
+        webrtcAddress = ":8889";
+        webrtcAdditionalHosts = [ "192.168.0.104" ];
+
+        # Optional HLS
+        hls = false;
+
+        paths = {
+          all = {
+            source = "publisher";
+          };
+        };
+      };
+    };
+
+    networking.firewall.allowedTCPPorts = [
+      1935 # RTMP
+      2305 # Steam Remote Play
+      5173 # Vite
+      5174 # Vite
+      8889 # WebRTC
+    ];
+
+    networking.firewall.allowedUDPPorts = [
+      8189 # WebRTC ICE/UDP
+    ];
 
     # This value determines the NixOS release from which the default
     # settings for stateful data, like file locations and database versions
@@ -197,6 +262,6 @@
     # this value at the release version of the first install of this system.
     # Before changing this value read the documentation for this option
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-    system.stateVersion = "25.11"; # Did you read the comment?
+    system.stateVersion = "26.05"; # Did you read the comment?
   };
 }
