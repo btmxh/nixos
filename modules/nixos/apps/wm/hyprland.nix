@@ -26,6 +26,11 @@ in
             type = types.str;
             description = "Path to the wallpaper image";
           };
+
+          secondPath = mkOption {
+            type = types.str;
+            description = "Path to the wallpaper image for the second monitor";
+          };
         };
       };
 
@@ -52,7 +57,7 @@ in
               }
               {
                 monitor = "HDMI-A-1";
-                inherit (cfg.wallpaper) path;
+                path = cfg.wallpaper.secondPath or cfg.wallpaper.path;
               }
             ];
           };
@@ -71,190 +76,532 @@ in
 
       wayland.windowManager.hyprland = {
         enable = true;
-        extraConfig = ''
-          exec-once = hyprpaper
 
-          exec-once = waybar
-          exec-once = [workspace 10 silent] discord
+        settings =
+          let
+            inherit (lib.generators) mkLuaInline;
 
-          monitor = eDP-1, 1920x1080@165, 0x0, 1
-          monitor = HDMI-A-1, 1920x1080@75, -1920x0, 1
-          monitor = DP-6, 2560x1440@120, 0x-1440, 1
-          monitor = DP-5, 2560x1440@120, -2560x-1440, 1
-          monitor = ,preferred,auto,1
+            keyboardBinds = [
+              # Basic apps
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + RETURN\"")
+                  (mkLuaInline "hl.dsp.exec_cmd(term)")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + F\"")
+                  (mkLuaInline "hl.dsp.window.fullscreen({ action = \"toggle\" })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + Q\"")
+                  (mkLuaInline "hl.dsp.window.close()")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + M\"")
+                  (mkLuaInline "hl.dsp.exit()")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + T\"")
+                  (mkLuaInline "hl.dsp.exec_cmd(fm)")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + SPACE\"")
+                  (mkLuaInline "hl.dsp.window.float({ action = \"toggle\" })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + D\"")
+                  (mkLuaInline "hl.dsp.exec_cmd(dmenu)")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + E\"")
+                  (mkLuaInline "hl.dsp.layout(\"togglesplit\")")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + SHIFT + F\"")
+                  (mkLuaInline "hl.dsp.exec_cmd(\"hyprlock\")")
+                ];
+              }
 
-          # Work browser
-          workspace = 1, monitor:DP-5, default:true
-          # Work (coding, art, etc.)
-          # workspace = 2, monitor:eDP-1 # project 1
-          # workspace = 3, monitor:eDP-1 # extra project 1
-          # workspace = 3, monitor:DP-6, default:true
-          # workspace = 4, monitor:eDP-1 # project 2
-          # workspace = 5, monitor:eDP-1 # extra project 2
-          workspace = 5, monitor:DP-6
-          # Temporaries
-          workspace = 6, monitor:eDP-1
-          # System stuff
-          workspace = 7, monitor:eDP-1
-          # Gaming
-          # workspace = 8, monitor:eDP-1
-          # Ambient browser (streams, music, etc.)
-          workspace = 9, monitor:HDMI-A-1, default:true
-          # Discord
-          workspace = 10, monitor:eDP-1
-        '';
+              # Move focus with vim keys
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + h\"")
+                  (mkLuaInline "hl.dsp.focus({ direction = \"l\" })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + l\"")
+                  (mkLuaInline "hl.dsp.focus({ direction = \"r\" })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + k\"")
+                  (mkLuaInline "hl.dsp.focus({ direction = \"u\" })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + j\"")
+                  (mkLuaInline "hl.dsp.focus({ direction = \"d\" })")
+                ];
+              }
 
-        settings = {
-          "$mainMod" = "SUPER";
-          "$term" = "ghostty";
-          "$fm" = "dolphin";
-          "$dmenu" = "rofi -show drun";
+              # Move window in direction
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + SHIFT + h\"")
+                  (mkLuaInline "hl.dsp.window.move({ direction = \"l\" })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + SHIFT + l\"")
+                  (mkLuaInline "hl.dsp.window.move({ direction = \"r\" })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + SHIFT + k\"")
+                  (mkLuaInline "hl.dsp.window.move({ direction = \"u\" })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + SHIFT + j\"")
+                  (mkLuaInline "hl.dsp.window.move({ direction = \"d\" })")
+                ];
+              }
 
-          env = [
-            "XCURSOR_SIZE,12"
-            "HYPRCURSOR_SIZE,12"
-          ];
+              # Previous workspace
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + TAB\"")
+                  (mkLuaInline "hl.dsp.focus({ workspace = \"previous\" })")
+                ];
+              }
 
-          general = {
-            layout = "dwindle";
-            gaps_in = "2";
-            gaps_out = "2";
-          };
+              # Screenshots (grimblast)
+              {
+                _args = [
+                  "Print"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"grimblast copy area\")")
+                ];
+              }
+              {
+                _args = [
+                  "SHIFT + Print"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"grimblast edit area\")")
+                ];
+              }
+              {
+                _args = [
+                  "CTRL + Print"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"grimblast copy screen\")")
+                ];
+              }
+              {
+                _args = [
+                  "CTRL + SHIFT + Print"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"grimblast edit screen\")")
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + Print"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"grimblast copy active\")")
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + SHIFT + Print"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"grimblast edit active\")")
+                ];
+              }
 
-          dwindle = {
-            preserve_split = true;
-          };
+              # Group operations
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + G\"")
+                  (mkLuaInline "hl.dsp.group.toggle()")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + SHIFT + G\"")
+                  (mkLuaInline "hl.dsp.window.move({ out_of_group = true })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + CTRL + J\"")
+                  (mkLuaInline "hl.dsp.group.next()")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + CTRL + K\"")
+                  (mkLuaInline "hl.dsp.group.prev()")
+                ];
+              }
 
-          group = {
-            "col.border_active" = "0xffffffff";
-            "col.border_inactive" = "0xff000000";
-            groupbar = {
-              height = "14";
-              font_size = "12";
-              indicator_height = "2";
-              text_color = "0xffffffff";
-              "col.active" = "0xff88c0d0";
-              "col.inactive" = "0xff4c566a";
+              # Scroll workspaces
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + mouse_down\"")
+                  (mkLuaInline "hl.dsp.focus({ workspace = \"e+1\" })")
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + mouse_up\"")
+                  (mkLuaInline "hl.dsp.focus({ workspace = \"e-1\" })")
+                ];
+              }
+            ]
+            # Workspace switching: mainMod + [0-9]
+            ++ builtins.genList (
+              i:
+              let
+                ws = i + 1;
+                key = if ws == 10 then "0" else toString ws;
+              in
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + ${key}\"")
+                  (mkLuaInline "hl.dsp.focus({ workspace = ${toString ws} })")
+                ];
+              }
+            ) 10
+            # Move window to workspace: mainMod + SHIFT + [0-9]
+            ++ builtins.genList (
+              i:
+              let
+                ws = i + 1;
+                key = if ws == 10 then "0" else toString ws;
+              in
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + SHIFT + ${key}\"")
+                  (mkLuaInline "hl.dsp.window.move({ workspace = ${toString ws} })")
+                ];
+              }
+            ) 10;
+
+            mouseBinds = [
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + mouse:272\"")
+                  (mkLuaInline "hl.dsp.window.drag()")
+                  { mouse = true; }
+                ];
+              }
+              {
+                _args = [
+                  (mkLuaInline "mainMod .. \" + mouse:273\"")
+                  (mkLuaInline "hl.dsp.window.resize()")
+                  { mouse = true; }
+                ];
+              }
+            ];
+
+            mediaBinds = [
+              {
+                _args = [
+                  "XF86AudioRaiseVolume"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+\")")
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioLowerVolume"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-\")")
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioMute"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle\")")
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioMicMute"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle\")")
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ];
+              }
+              {
+                _args = [
+                  "XF86MonBrightnessUp"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"brightnessctl -e4 -n2 set 5%+\")")
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ];
+              }
+              {
+                _args = [
+                  "XF86MonBrightnessDown"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"brightnessctl -e4 -n2 set 5%-\")")
+                  {
+                    locked = true;
+                    repeating = true;
+                  }
+                ];
+              }
+            ];
+
+            playerctlBinds = [
+              {
+                _args = [
+                  "XF86AudioNext"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"playerctl next\")")
+                  { locked = true; }
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioPause"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"playerctl play-pause\")")
+                  { locked = true; }
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioPlay"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"playerctl play-pause\")")
+                  { locked = true; }
+                ];
+              }
+              {
+                _args = [
+                  "XF86AudioPrev"
+                  (mkLuaInline "hl.dsp.exec_cmd(\"playerctl previous\")")
+                  { locked = true; }
+                ];
+              }
+            ];
+
+            allBinds = keyboardBinds ++ mouseBinds ++ mediaBinds ++ playerctlBinds;
+          in
+          {
+            # Lua local variables
+            mainMod = {
+              _var = "SUPER";
             };
+            term = {
+              _var = "ghostty";
+            };
+            fm = {
+              _var = "dolphin";
+            };
+            dmenu = {
+              _var = "rofi -show drun";
+            };
+
+            # Autostart
+            on = {
+              _args = [
+                "hyprland.start"
+                (mkLuaInline ''
+                  function()
+                    hl.exec_cmd("hyprpaper")
+                    hl.exec_cmd("waybar")
+                    hl.exec_cmd("discord")
+                  end
+                '')
+              ];
+            };
+
+            # Monitors
+            monitor = [
+              {
+                output = "eDP-1";
+                mode = "1920x1080@165";
+                position = "0x0";
+                scale = 1;
+              }
+              {
+                output = "HDMI-A-1";
+                mode = "1920x1080@75";
+                position = "-1920x0";
+                scale = 1;
+              }
+              {
+                output = "DP-6";
+                mode = "2560x1440@120";
+                position = "0x-1440";
+                scale = 1;
+              }
+              {
+                output = "DP-5";
+                mode = "2560x1440@120";
+                position = "-2560x-1440";
+                scale = 1;
+              }
+              {
+                output = "";
+                mode = "preferred";
+                position = "auto";
+                scale = "auto";
+              }
+            ];
+
+            # Workspace-to-monitor mapping
+            workspace_rule = [
+              {
+                workspace = "1";
+                monitor = "DP-5";
+                default = true;
+              }
+              {
+                workspace = "5";
+                monitor = "DP-6";
+              }
+              {
+                workspace = "6";
+                monitor = "eDP-1";
+              }
+              {
+                workspace = "7";
+                monitor = "eDP-1";
+              }
+              {
+                workspace = "9";
+                monitor = "HDMI-A-1";
+                default = true;
+              }
+              {
+                workspace = "10";
+                monitor = "eDP-1";
+              }
+            ];
+
+            # Environment variables
+            env = [
+              {
+                _args = [
+                  "XCURSOR_SIZE"
+                  "12"
+                ];
+              }
+              {
+                _args = [
+                  "HYPRCURSOR_SIZE"
+                  "12"
+                ];
+              }
+            ];
+
+            # Main config groups
+            config = {
+              general = {
+                layout = "dwindle";
+                gaps_in = 2;
+                gaps_out = 2;
+              };
+              dwindle = {
+                preserve_split = true;
+              };
+              group = {
+                col = {
+                  border_active = "0xffffffff";
+                  border_inactive = "0xff000000";
+                };
+                groupbar = {
+                  height = 14;
+                  font_size = 12;
+                  indicator_height = 2;
+                  gradients = true;
+                  text_color = "0xff181825";
+                  text_color_inactive = "0xffcdd6f4";
+                  col = {
+                    active = "0xffcdd6f4";
+                    inactive = "0xff313244";
+                  };
+                };
+              };
+              decoration = {
+                dim_inactive = true;
+                dim_strength = 0.1;
+                rounding = 2;
+              };
+              master = {
+                new_status = "master";
+              };
+              misc = {
+                disable_hyprland_logo = true;
+              };
+              binds = {
+                allow_workspace_cycles = true;
+              };
+            };
+
+            # Custom bezier curve
+            curve = [
+              {
+                _args = [
+                  "myBezier"
+                  (mkLuaInline "{ type = \"bezier\", points = { { 0.05, 0.9 }, { 0.1, 1.05 } } }")
+                ];
+              }
+            ];
+
+            # Animation
+            animation = [
+              {
+                leaf = "windows";
+                enabled = true;
+                speed = 4;
+                bezier = "myBezier";
+              }
+            ];
+
+            # Window rule: discord on workspace 10
+            window_rule = {
+              match = {
+                class = "discord";
+              };
+              workspace = 10;
+            };
+
+            # ── Binds ──
+            bind = allBinds;
           };
-          bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
-
-          animation = [
-            "windows, 1, 4, myBezier"
-          ];
-
-          decoration = {
-            dim_inactive = true;
-            dim_strength = 0.1;
-            rounding = 2;
-          };
-
-          master = {
-            new_status = true;
-          };
-
-          misc = {
-            disable_hyprland_logo = true;
-          };
-
-          binds = {
-            allow_workspace_cycles = true;
-          };
-
-          # gestures = "3, horizontal, workspace";
-
-          bind = [
-            # Basic apps
-            "$mainMod, RETURN, exec, $term"
-            "$mainMod, F, fullscreen"
-            "$mainMod, Q, killactive"
-            "$mainMod, M, exit"
-            "$mainMod, T, exec, $fm"
-            "$mainMod, SPACE, togglefloating"
-            "$mainMod, D, exec, $dmenu"
-            "$mainMod, E, togglesplit"
-
-            # Move focus
-            "$mainMod, h, movefocus, l"
-            "$mainMod, l, movefocus, r"
-            "$mainMod, k, movefocus, u"
-            "$mainMod, j, movefocus, d"
-
-            "$mainMod SHIFT, h, movewindow, l"
-            "$mainMod SHIFT, l, movewindow, r"
-            "$mainMod SHIFT, k, movewindow, u"
-            "$mainMod SHIFT, j, movewindow, d"
-
-            # Workspace navigation
-            "$mainMod, TAB, workspace, previous"
-
-            "$mainMod, 1, workspace, 1"
-            "$mainMod, 2, workspace, 2"
-            "$mainMod, 3, workspace, 3"
-            "$mainMod, 4, workspace, 4"
-            "$mainMod, 5, workspace, 5"
-            "$mainMod, 6, workspace, 6"
-            "$mainMod, 7, workspace, 7"
-            "$mainMod, 8, workspace, 8"
-            "$mainMod, 9, workspace, 9"
-            "$mainMod, 0, workspace, 10"
-
-            # Move window to workspace
-            "$mainMod SHIFT, 1, movetoworkspace, 1"
-            "$mainMod SHIFT, 2, movetoworkspace, 2"
-            "$mainMod SHIFT, 3, movetoworkspace, 3"
-            "$mainMod SHIFT, 4, movetoworkspace, 4"
-            "$mainMod SHIFT, 5, movetoworkspace, 5"
-            "$mainMod SHIFT, 6, movetoworkspace, 6"
-            "$mainMod SHIFT, 7, movetoworkspace, 7"
-            "$mainMod SHIFT, 8, movetoworkspace, 8"
-            "$mainMod SHIFT, 9, movetoworkspace, 9"
-            "$mainMod SHIFT, 0, movetoworkspace, 10"
-
-            # Scroll workspaces
-            "$mainMod, mouse_down, workspace, e+1"
-            "$mainMod, mouse_up, workspace, e-1"
-
-            # Screenshots
-            ", Print, exec, grimblast copy area"
-            "SHIFT, Print, exec, grimblast edit area"
-            "CTRL, Print, exec, grimblast copy screen"
-            "CTRL SHIFT, Print, exec, grimblast edit screen"
-            "SUPER, Print, exec, grimblast copy active"
-            "SUPER SHIFT, Print, exec, grimblast edit active"
-
-            # Group
-            "$mainMod, G, togglegroup"
-            "$mainMod SHIFT, G, moveoutofgroup"
-            "$mainMod CTRL, J, changegroupactive, f"
-            "$mainMod CTRL, K, changegroupactive, b"
-          ];
-
-          bindm = [
-            "$mainMod, mouse:272, movewindow"
-            "$mainMod, mouse:273, resizewindow"
-          ];
-
-          bindel = [
-            ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-            ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-            ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-            ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-            ",XF86MonBrightnessUp, exec, brightnessctl -e4 -n2 set 5%+"
-            ",XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-"
-          ];
-
-          bindl = [
-            ",XF86AudioNext, exec, playerctl next"
-            ",XF86AudioPause, exec, playerctl play-pause"
-            ",XF86AudioPlay, exec, playerctl play-pause"
-            ",XF86AudioPrev, exec, playerctl previous"
-          ];
-
-          windowrule = [
-            "match:class discord, workspace 10"
-          ];
-        };
       };
     };
 
@@ -262,6 +609,7 @@ in
       enable = true;
       xwayland.enable = true;
     };
+    programs.hyprlock.enable = true;
 
     environment.systemPackages = with pkgs; [
       xdg-desktop-portal-gtk
