@@ -30,12 +30,12 @@ in
   config = mkIf cfg.enable {
     virtualisation.docker = {
       enable = true;
-      daemon.settings = mkIf cfg.customPath.enable {
-        data-root = cfg.customPath.path;
-      };
       rootless = {
         enable = true;
         setSocketVariable = true;
+        daemon.settings = mkIf cfg.customPath.enable {
+          data-root = cfg.customPath.path;
+        };
       };
     };
 

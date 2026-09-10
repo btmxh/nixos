@@ -64,6 +64,7 @@ in
           enable = mkIf (
             apps.browser.firefox.default
             || apps.browser.chromium.default
+            || apps.browser.google-chrome.default
             || apps.browser.zen.default
             || apps.viewer.imv.default
             || apps.viewer.mpv.default
@@ -78,6 +79,10 @@ in
 
         (mkIf apps.browser.chromium.default {
           defaultApplications = createMimeAssoc browserMimeTypes "chromium-browser.desktop";
+        })
+
+        (mkIf apps.browser.google-chrome.default {
+          defaultApplications = createMimeAssoc browserMimeTypes "google-chrome.desktop";
         })
 
         (mkIf apps.browser.zen.default {
