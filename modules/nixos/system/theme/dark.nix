@@ -28,6 +28,7 @@ in
           name = "Adwaita-dark";
           package = pkgs.gnome-themes-extra;
         };
+        gtk4.theme = null;
       };
 
       systemd.user.sessionVariables = config.home-manager.users.${user.name}.home.sessionVariables;

@@ -9,7 +9,7 @@
 
     home = {
       username = "${user.name}";
-      stateVersion = "25.11";
+      stateVersion = "26.05";
       # homeDirectory = "${user.homeDir}";
     };
   };

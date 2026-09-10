@@ -21,5 +21,9 @@ in
       kdePackages.qtsvg
     ];
     services.udisks2.enable = mkIf cfg.udisk2 true;
+    # Fix Dolphin file associations on non-Plasma desktop environments
+    # https://github.com/NixOS/nixpkgs/issues/409986
+    environment.etc."xdg/menus/applications.menu".source =
+      "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
   };
 }

@@ -70,9 +70,9 @@ in
       VISUAL = "nvim";
     };
 
-    systemd.user.extraConfig = ''
-      DefaultEnvironment="PATH=/run/current-system/sw/bin"
-    '';
+    systemd.user.settings.Manager = {
+      DefaultEnvironment = "PATH=/run/current-system/sw/bin";
+    };
 
     users.groups.${user.name} = { };
 
