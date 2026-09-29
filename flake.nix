@@ -1,6 +1,11 @@
 {
   description = "Nixos config flake";
 
+  nixConfig = {
+    extra-substituters = [ "https://cache.numtide.com" ];
+    extra-trusted-public-keys = [ "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=" ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     git-hooks = {
@@ -19,13 +24,17 @@
     };
 
     zen-browser = {
-      url = "github:youwen5/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:0xc000022070/zen-browser-flake";
     };
 
     waybar-src = {
       url = "github:Alexays/Waybar/master";
       flake = false;
+    };
+
+    llm-agents = {
+      url = "git+https://github.com/numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
