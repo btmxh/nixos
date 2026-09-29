@@ -42,6 +42,15 @@ in
       system.networking.networkmanager.hostname = "ci";
 
       apps = {
+        # The only deliberate divergence from the machine config. mediawiki
+        # downloads extension tarballs from extdist.wmflabs.org at build time,
+        # and Scribunto-REL1_45-61207ea.tar.gz now 404s, so a cold-cache CI
+        # runner cannot build it. Your machine keeps the wiki; only CI opts out.
+        #
+        # mkForce is required: config.default.nix already sets this flag, and
+        # two plain definitions of the same option conflict.
+        wiki.personal_mediawiki.enable = lib.mkForce false;
+
         wm.hyprland.wallpaper = {
           path = "/tmp/wallpaper.png";
           secondPath = "/tmp/wallpaper-2.png";
