@@ -8,6 +8,7 @@
         allowUnfreePredicate =
           pkg:
           builtins.elem (lib.getName pkg) [
+            "discord"
             "discord-unwrapped"
             "google-chrome"
           ];
@@ -244,6 +245,12 @@
         };
       };
     };
+
+    # Tailscale: private access to local services from phone etc.
+    services.tailscale.enable = true;
+    networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
+      4173 # wtm
+    ];
 
     networking.firewall.allowedTCPPorts = [
       1935 # RTMP
