@@ -1,53 +1,25 @@
+# Portable configuration: the app toggles and settings that do not depend on
+# who owns the machine or what hardware is inside it.
+#
+# Machine-specific values (identity, disks, GPU, file paths) live in
+# config.user.nix, which is not tracked by git. CI substitutes config.ci.nix
+# for it, so the toggles below are what CI actually builds.
 { lib, pkgs, ... }:
 {
   config = {
-    # Allow unfree packages
     nixpkgs.config.allowUnfree = true;
-    home-manager.users.ayaneso = {
-      nixpkgs.config = {
-        allowUnfreePredicate =
-          pkg:
-          builtins.elem (lib.getName pkg) [
-            "discord"
-            "discord-unwrapped"
-            "google-chrome"
-          ];
-      };
-    };
 
     mine = {
-      user = {
-        enable = true;
-        name = "ayaneso";
-        email = "ngoduyanh.chip@gmail.com";
-        home-manager.enable = true;
-        shell = {
-          package = pkgs.bash;
-          starship.enable = true;
-        };
-      };
-
-      agentUser = {
-        enable = true;
-        name = "aiagent";
-        email = "agent@ai.com";
-        shell.package = pkgs.bash;
-      };
-
       system = {
         bluetooth.enable = true;
         boot.systemd.enable = true;
         timezone.enable = true;
         networking.networkmanager = {
           enable = true;
-          hostname = "ep44";
           applet = true;
         };
         theme.dark.enable = true;
-        graphics.nvidia.enable = true;
-        udev = {
-          stlink.enable = true;
-        };
+        udev.stlink.enable = true;
         tablet.otd.enable = true;
       };
 
@@ -58,18 +30,14 @@
         angrr.enable = true;
       };
 
+      # Toggle board. Paths and identities for individual apps are set in
+      # config.user.nix.
       apps = {
         wm.hyprland = {
           enable = true;
-          wallpaper = {
-            enable = true;
-            path = "~/msobiggestenemy.png";
-            secondPath = "~/msosecondbiggestenemy.png";
-          };
+          wallpaper.enable = true;
         };
-        wm.waybar = {
-          enable = true;
-        };
+        wm.waybar.enable = true;
         terminal.ghostty.enable = true;
         launcher.rofi.enable = true;
         screenshot = {
@@ -83,18 +51,17 @@
         };
         notification.mako = {
           enable = true;
-          sound = {
-            enable = true;
-            path = "/home/ayaneso/Downloads/mixkit-correct-answer-tone-2870.wav";
-          };
+          sound.enable = true;
         };
         clipboard.wl-clipboard.enable = true;
         graphics.inkscape.enable = true;
-        browser.firefox.enable = true;
-        browser.google-chrome.enable = true;
-        browser.zen = {
-          enable = true;
-          default = true;
+        browser = {
+          firefox.enable = true;
+          google-chrome.enable = true;
+          zen = {
+            enable = true;
+            default = true;
+          };
         };
 
         chat.discord.enable = true;
@@ -113,20 +80,17 @@
           enable = true;
           udisk2 = true;
         };
-        dev.claude-code.enable = true;
-        dev.codex.enable = true;
-        dev.opencode.enable = true;
-        dev.git = {
-          enable = true;
-          userName = "btmxh";
-          userEmail = "ngoduyanh.chip@gmail.com";
-          defaultBranch = "master";
-        };
-        dev.docker = {
-          enable = true;
-          customPath = {
+        dev = {
+          claude-code.enable = true;
+          codex.enable = true;
+          opencode.enable = true;
+          git = {
             enable = true;
-            path = "/mnt/cocker/docker";
+            defaultBranch = "master";
+          };
+          docker = {
+            enable = true;
+            customPath.enable = true;
           };
         };
         download.qbittorrent.enable = true;
@@ -135,10 +99,7 @@
         i18n.fcitx5.enable = true;
         shell = {
           direnv.enable = true;
-          bash.rebuild = {
-            enable = true;
-            nixosDir = "$HOME/dev/nixos";
-          };
+          bash.rebuild.enable = true;
         };
         wiki.personal_mediawiki.enable = true;
         viewer = {
@@ -165,61 +126,11 @@
       };
     };
 
-    # docker drive
-    fileSystems."/mnt/cocker" = {
-      device = "/dev/nvme0n1p4";
-      fsType = "ext4";
-    };
-
-    # swap file
-    swapDevices = [
-      {
-        device = "/swapfile";
-        size = 32 * 1024; # 32 GiB
-      }
-    ];
-
-    # hibernation
-    powerManagement.enable = true;
-    boot = {
-      # run: sudo filefrag -v /swapfile | head
-      kernelParams = [ "resume_offset=34277376" ];
-      # run: lsblk -f
-      resumeDevice = "/dev/disk/by-uuid/673b9226-52bc-4638-be21-a14ffccfc5f0";
-    };
-
-    nix.settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-
-    users.users.ayaneso = {
-      extraGroups = [ "dialout" ];
-    };
-
     programs.steam = {
       enable = true;
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
       dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
       localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-    };
-
-    programs.nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        linuxPackages.nvidia_x11
-        libxcb
-        libGL
-        libGLU
-        glib
-        libxcb
-        libX11
-        libXext
-        libXrender
-        libXi
-        libICE
-        libSM
-      ];
     };
 
     services.mediamtx = {
@@ -248,20 +159,27 @@
 
     # Tailscale: private access to local services from phone etc.
     services.tailscale.enable = true;
-    networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-      4173 # wtm
-    ];
+    networking = {
+      firewall = {
+        interfaces.tailscale0.allowedTCPPorts = [
+          4173 # wtm
+        ];
+        allowedTCPPorts = [
+          1935 # RTMP
+          2305 # Steam Remote Play
+          5173 # Vite
+          5174 # Vite
+          8889 # WebRTC
+        ];
+        allowedUDPPorts = [
+          8189 # WebRTC ICE/UDP
+        ];
+      };
+    };
 
-    networking.firewall.allowedTCPPorts = [
-      1935 # RTMP
-      2305 # Steam Remote Play
-      5173 # Vite
-      5174 # Vite
-      8889 # WebRTC
-    ];
-
-    networking.firewall.allowedUDPPorts = [
-      8189 # WebRTC ICE/UDP
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
     ];
 
     # This value determines the NixOS release from which the default

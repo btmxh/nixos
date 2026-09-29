@@ -3,11 +3,17 @@
 ## Structure
 
 - **`flake.nix`** — entrypoint; lists every module explicitly in `nixosConfigurations.mine.modules`
-- **`config.user.nix`** — the main toggle board; all `mine.apps.<category>.<name>.enable` flags go here
+- **`config.default.nix`** — the main toggle board; all `mine.apps.<category>.<name>.enable` flags go here. Tracked.
 - **`modules/nixos/apps/<category>/<name>.nix`** — per-app NixOS + home-manager module
 - **`modules/nixos/`** — `apps/`, `services/`, `system/`, `user/`, `fonts/`
 - **`hosts/mine/hardware-configuration.nix`** — auto-generated, do not edit
-- **`config.user.nix.example`** — template used in CI; `config.user.nix` is gitignored
+- **`config.user.nix`** — machine-specific only: identity, hostname, disks, GPU, `$HOME` paths. Gitignored, never commit it.
+- **`config.ci.nix`** — stand-in for `config.user.nix` in CI; `build.yml` copies it. Tracked.
+
+Both halves are imported by `flake.nix`, so any option set in `config.user.nix`
+overrides the same option in `config.default.nix`. Keep the split at that
+boundary: a toggle belongs in `config.default.nix`, the value that identifies
+this machine belongs in `config.user.nix`.
 
 ## Adding a new app
 
@@ -15,7 +21,7 @@
    - options at `mine.apps.<category>.<name>.enable`
    - config inside `mkIf cfg.enable` using `home-manager.users.${user.name}.home.packages` or `environment.systemPackages`
 2. Add `./modules/nixos/apps/<category>/<name>.nix` to the `modules` list in `flake.nix` (alphabetical within category)
-3. Add `<category>.<name>.enable = true;` to `config.user.nix`
+3. Add `<category>.<name>.enable = true;` to `config.default.nix`
 
 ## Build & deploy
 

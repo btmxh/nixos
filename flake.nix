@@ -54,6 +54,7 @@
         # pkgs = import nixpkgs { inherit system; config.allowUnfree = true;};
         modules = [
           ./hardware-configuration.nix
+          ./config.default.nix
           ./config.user.nix
           inputs.home-manager.nixosModules.default
           ./modules/nixos/system/boot/systemd.nix
