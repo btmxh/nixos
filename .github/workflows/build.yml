@@ -66,8 +66,5 @@ jobs:
           primary-key: nix-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
           restore-prefixes-first-match: nix-${{ runner.os }}-${{ runner.arch }}
 
-      - name: Stand in for the untracked user config
-        run: cp config.ci.nix config.user.nix
-
       - name: Build Nix Flake
-        run: nix build --extra-experimental-features 'nix-command flakes' .#nixosConfigurations.mine.config.system.build.toplevel
+        run: nix build --extra-experimental-features 'nix-command flakes' --override-input personal path:./personal-ci .#nixosConfigurations.mine.config.system.build.toplevel

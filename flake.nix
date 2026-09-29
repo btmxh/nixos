@@ -36,6 +36,16 @@
       url = "git+https://github.com/numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Machine-specific config, kept out of git by living in a separate
+    # directory. Defaults to the tracked throwing stub so a forgotten
+    # --override-input fails loudly instead of building the wrong system.
+    #   local:  --override-input personal path:/home/ayaneso/nix-personal
+    #   CI:     --override-input personal path:./personal-ci
+    personal = {
+      url = "path:./personal";
+      flake = false;
+    };
   };
 
   outputs =
@@ -55,7 +65,7 @@
         modules = [
           ./hardware-configuration.nix
           ./config.default.nix
-          ./config.user.nix
+          (inputs.personal + "/config.user.nix")
           inputs.home-manager.nixosModules.default
           ./modules/nixos/system/boot/systemd.nix
           ./modules/nixos/system/locale/default.nix

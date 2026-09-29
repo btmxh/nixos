@@ -7,44 +7,39 @@
 - **`modules/nixos/apps/<category>/<name>.nix`** — per-app NixOS + home-manager module
 - **`modules/nixos/`** — `apps/`, `services/`, `system/`, `user/`, `fonts/`
 - **`hosts/mine/hardware-configuration.nix`** — auto-generated, do not edit
-- **`config.user.nix`** — machine-specific only: identity, hostname, disks, GPU, `$HOME` paths. Gitignored, never commit it.
-- **`config.ci.nix`** — stand-in for `config.user.nix` in CI; `build.yml` copies it. Tracked.
+- **`personal/config.user.nix`** — tracked stub that throws. Placeholder for the `personal` input. Never edit.
+- **`personal-ci/config.user.nix`** — CI stand-in (throwaway account, no GPU), used via `--override-input personal path:./personal-ci`. Tracked.
+- **`/home/ayaneso/nix-personal/config.user.nix`** — the real machine config: identity, hostname, disks, GPU, `$HOME` paths. **Outside the repo, never committed.**
 
-Both halves are imported by `flake.nix`, so any option set in `config.user.nix`
-overrides the same option in `config.default.nix`. Keep the split at that
-boundary: a toggle belongs in `config.default.nix`, the value that identifies
-this machine belongs in `config.user.nix`.
+`flake.nix` imports `config.default.nix` and `inputs.personal + "/config.user.nix"`,
+so any option set in the machine config overrides the same option in
+`config.default.nix`. Keep the split at that boundary: a toggle belongs in
+`config.default.nix`, the value that identifies this machine belongs in the
+personal config.
 
-### Why `config.user.nix` is still in the git index
+### The machine config is a flake input
 
-Nix builds the flake source from the **git index**, not from `.gitignore` and
-not from the filesystem. An ignored, untracked file is invisible to it and
-`nix build` fails with:
+Nix builds a local flake's source from the **git index**, so an untracked file
+inside the repo is invisible to it:
 
 ```
 error: Path 'config.user.nix' in the repository "..." is not tracked by Git.
 ```
 
-An *intent-to-add* entry satisfies that without recording the contents — the
-index holds an empty blob, while Nix still reads the real file from the working
-tree:
+That is why the machine config lives outside the repository and arrives as the
+`personal` flake input — a `path:` input is copied wholesale, with no git
+involvement and no `--impure` needed. `flake.lock` records only the tracked
+stub, so the real path never enters git.
 
-```sh
-git add -f -N config.user.nix   # -f because the path is in .gitignore
-```
+| Context | Input |
+|---|---|
+| local | `--override-input personal path:/home/ayaneso/nix-personal` |
+| CI | `--override-input personal path:./personal-ci` |
 
-Two sharp edges, both verified:
-
-- **Any commit drops the entry**, so the flake stops evaluating until you run
-  that command again. Treat it as part of the commit loop, not a one-time
-  clone step.
-- **`git commit -a` publishes the file.** It stages working-tree contents and
-  commits them for real. Never use `-a` here. A plain `git commit` is safe: git
-  aborts with "no changes added to commit" instead of writing an empty file.
-
-If that friction is not worth it, the alternative is to keep the file outside
-the repo entirely and import it by absolute path — that needs `--impure` on
-every `nix` invocation, since pure evaluation forbids absolute paths.
+The local rebuild aliases already carry the flag: it is built from
+`mine.apps.shell.bash.rebuild.personalConfig`, which your machine config sets.
+A bare `nix build` hits the stub and fails with instructions rather than
+quietly building a system with the wrong hostname and user.
 
 ## Adding a new app
 
@@ -56,15 +51,20 @@ every `nix` invocation, since pure evaluation forbids absolute paths.
 
 ## Build & deploy
 
+Every command needs the `personal` input, or the flake hits the throwing stub.
+
 ```sh
 # rebuild system
-sudo nixos-rebuild switch --flake /home/ayaneso/dev/nixos#mine
+sudo nixos-rebuild switch \
+  --override-input personal path:/home/ayaneso/nix-personal \
+  --flake /home/ayaneso/dev/nixos#mine
 
-# using the shell alias (if bash.enable + rebuild.enable)
+# using the shell alias (if bash.enable + rebuild.enable) — carries the override
 rebuild
 
 # just build (no switch)
-nix build .#nixosConfigurations.mine.config.system.build.toplevel
+nix build --override-input personal path:/home/ayaneso/nix-personal \
+  .#nixosConfigurations.mine.config.system.build.toplevel
 ```
 
 ## Linting & formatting

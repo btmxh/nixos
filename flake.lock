@@ -262,6 +262,18 @@
         "type": "github"
       }
     },
+    "personal": {
+      "flake": false,
+      "locked": {
+        "path": "./personal",
+        "type": "path"
+      },
+      "original": {
+        "path": "./personal",
+        "type": "path"
+      },
+      "parent": []
+    },
     "root": {
       "inputs": {
         "git-hooks": "git-hooks",
@@ -269,6 +281,7 @@
         "llm-agents": "llm-agents",
         "nixpkgs": "nixpkgs_2",
         "nixvim": "nixvim",
+        "personal": "personal",
         "systems": "systems_3",
         "waybar-src": "waybar-src",
         "zen-browser": "zen-browser"

@@ -1,4 +1,5 @@
-# Stand-in for the untracked config.user.nix, used by CI (.github/workflows/build.yml).
+# CI stand-in for the machine config, passed to the flake as
+# `--override-input personal path:./personal-ci` by .github/workflows/build.yml.
 #
 # It only supplies the values config.default.nix cannot know: a throwaway
 # account name, a placeholder hostname, and dummy paths. The app toggles
