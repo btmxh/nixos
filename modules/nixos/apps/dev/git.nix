@@ -39,6 +39,11 @@ in
       programs.gh.enable = true;
       programs.git = {
         enable = true;
+        ignores = [
+          ".direnv"
+          ".envrc"
+          "**/.claude/settings.local.json"
+        ];
         settings = {
           user = {
             name = cfg.userName;
