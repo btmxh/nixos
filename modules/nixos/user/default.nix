@@ -20,20 +20,11 @@ in
 {
   options.mine.user = {
     enable = mkEnableOption "Enable User";
+    # No default on purpose: identity belongs in the machine config, which
+    # lives outside this repository. See AGENTS.md.
     name = mkOption {
       type = types.str;
-      default = "ayaneso";
       description = "User account name";
-    };
-    alias = mkOption {
-      type = types.str;
-      default = "ayns";
-      description = "Full alias";
-    };
-    email = mkOption {
-      type = types.str;
-      default = "ngoduyanh.chip@gmail.com";
-      description = "My email";
     };
     homeDir = mkOption {
       type = types.str;

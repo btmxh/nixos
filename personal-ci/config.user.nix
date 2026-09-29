@@ -31,7 +31,6 @@ in
     mine = {
       user = {
         name = "ci";
-        email = "ci@example.com";
         home-manager.enable = true;
         shell = {
           package = pkgs.bash;
