@@ -39,25 +39,22 @@ in
 
   config = mkIf cfg.enable {
     environment.systemPackages = [
-      (pkgs.wrapFirefox
-        inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.zen-browser-unwrapped
-        {
-          extraPrefs = lib.concatLines (
-            lib.mapAttrsToList (
-              name: value: "lockPref(${lib.strings.toJSON name}, ${lib.strings.toJSON value});"
-            ) prefs
-          );
+      (pkgs.wrapFirefox inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta-unwrapped {
+        extraPrefs = lib.concatLines (
+          lib.mapAttrsToList (
+            name: value: "lockPref(${lib.strings.toJSON name}, ${lib.strings.toJSON value});"
+          ) prefs
+        );
 
-          extraPolicies = {
-            DisableTelemetry = true;
-            ExtensionSettings = builtins.listToAttrs extensions;
+        extraPolicies = {
+          DisableTelemetry = true;
+          ExtensionSettings = builtins.listToAttrs extensions;
 
-            SearchEngines = {
-              Default = "ddg";
-            };
+          SearchEngines = {
+            Default = "ddg";
           };
-        }
-      )
+        };
+      })
     ];
   };
 }

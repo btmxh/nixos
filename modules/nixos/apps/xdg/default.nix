@@ -86,7 +86,7 @@ in
         })
 
         (mkIf apps.browser.zen.default {
-          defaultApplications = createMimeAssoc browserMimeTypes "zen.desktop";
+          defaultApplications = createMimeAssoc browserMimeTypes "zen-beta.desktop";
         })
 
         # Image viewer defaults
