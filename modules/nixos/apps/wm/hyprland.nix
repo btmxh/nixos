@@ -121,6 +121,12 @@ in
               }
               {
                 _args = [
+                  (mkLuaInline "mainMod .. \" + P\"")
+                  (mkLuaInline "hl.dsp.window.pin()")
+                ];
+              }
+              {
+                _args = [
                   (mkLuaInline "mainMod .. \" + D\"")
                   (mkLuaInline "hl.dsp.exec_cmd(dmenu)")
                 ];
@@ -523,6 +529,20 @@ in
                 _args = [
                   "HYPRCURSOR_SIZE"
                   "12"
+                ];
+              }
+            ]
+            ++ lib.optionals (config.mine.system.graphics.nvidia.enable or false) [
+              {
+                _args = [
+                  "LIBVA_DRIVER_NAME"
+                  "nvidia"
+                ];
+              }
+              {
+                _args = [
+                  "__GLX_VENDOR_LIBRARY_NAME"
+                  "nvidia"
                 ];
               }
             ];
