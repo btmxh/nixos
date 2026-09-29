@@ -30,6 +30,7 @@ in
 
     mine = {
       user = {
+        enable = true;
         name = "ci";
         home-manager.enable = true;
         shell = {

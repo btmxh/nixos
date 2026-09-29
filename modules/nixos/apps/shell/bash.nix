@@ -34,7 +34,7 @@ in
         default = "$HOME/dev/nixos";
       };
       personalConfig = mkOption {
-        type = types.str;
+        type = types.nullOr types.str;
         description = ''
           Directory holding config.user.nix, passed to the flake as the
           `personal` input so that file stays out of git. Set this in your

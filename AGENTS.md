@@ -79,6 +79,25 @@ nix flake check
 
 Dev shell (with `direnv` via `.envrc`) provides `nixfmt` and `nixd`.
 
+### Check both configs with a full evaluation
+
+`nix eval .#…config.someOption` is lazy: it evaluates only what you ask for, so
+it happily returns a value while a missing `enable` flag or a mistyped option
+elsewhere in the system would still fail the real build. Use this to force the
+whole thing, assertions included, without building:
+
+```sh
+# your machine
+nix eval --override-input personal path:/home/ayaneso/nix-personal \
+  --raw .#nixosConfigurations.mine.config.system.build.toplevel.drvPath
+
+# what CI builds
+nix eval --override-input personal path:./personal-ci \
+  --raw .#nixosConfigurations.mine.config.system.build.toplevel.drvPath
+```
+
+Run both after touching any `enable` flag or any option's type.
+
 ## Key conventions & gotchas
 
 - **`nixpkgs` follows `nixos-unstable`**
