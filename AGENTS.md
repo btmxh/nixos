@@ -15,6 +15,28 @@ overrides the same option in `config.default.nix`. Keep the split at that
 boundary: a toggle belongs in `config.default.nix`, the value that identifies
 this machine belongs in `config.user.nix`.
 
+### Why `config.user.nix` still needs `git add -N`
+
+Nix builds the flake source from the **git index**, not from `.gitignore` and
+not from the filesystem. An ignored, untracked file is invisible to it and
+`nix build` fails with:
+
+```
+error: Path 'config.user.nix' in the repository "..." is not tracked by Git.
+```
+
+An *intent-to-add* entry satisfies that without recording the contents — the
+index holds an empty blob, while Nix still reads the real file from the working
+tree. Run this after every fresh clone or `git clean`:
+
+```sh
+git add -f -N config.user.nix   # -f because the path is in .gitignore
+```
+
+A plain `git commit` is safe: git aborts with "no changes added to commit"
+rather than writing an empty file. **`git commit -a` is not** — it stages the
+working-tree contents and publishes them. Do not use `-a` in this repo.
+
 ## Adding a new app
 
 1. Create `modules/nixos/apps/<category>/<name>.nix` with the standard pattern:
