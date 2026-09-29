@@ -15,7 +15,7 @@ overrides the same option in `config.default.nix`. Keep the split at that
 boundary: a toggle belongs in `config.default.nix`, the value that identifies
 this machine belongs in `config.user.nix`.
 
-### Why `config.user.nix` still needs `git add -N`
+### Why `config.user.nix` is still in the git index
 
 Nix builds the flake source from the **git index**, not from `.gitignore` and
 not from the filesystem. An ignored, untracked file is invisible to it and
@@ -27,15 +27,24 @@ error: Path 'config.user.nix' in the repository "..." is not tracked by Git.
 
 An *intent-to-add* entry satisfies that without recording the contents — the
 index holds an empty blob, while Nix still reads the real file from the working
-tree. Run this after every fresh clone or `git clean`:
+tree:
 
 ```sh
 git add -f -N config.user.nix   # -f because the path is in .gitignore
 ```
 
-A plain `git commit` is safe: git aborts with "no changes added to commit"
-rather than writing an empty file. **`git commit -a` is not** — it stages the
-working-tree contents and publishes them. Do not use `-a` in this repo.
+Two sharp edges, both verified:
+
+- **Any commit drops the entry**, so the flake stops evaluating until you run
+  that command again. Treat it as part of the commit loop, not a one-time
+  clone step.
+- **`git commit -a` publishes the file.** It stages working-tree contents and
+  commits them for real. Never use `-a` here. A plain `git commit` is safe: git
+  aborts with "no changes added to commit" instead of writing an empty file.
+
+If that friction is not worth it, the alternative is to keep the file outside
+the repo entirely and import it by absolute path — that needs `--impure` on
+every `nix` invocation, since pure evaluation forbids absolute paths.
 
 ## Adding a new app
 
