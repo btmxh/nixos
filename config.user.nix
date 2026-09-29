@@ -114,6 +114,7 @@
         };
         dev.claude-code.enable = true;
         dev.codex.enable = true;
+        dev.opencode.enable = true;
         dev.git = {
           enable = true;
           userName = "btmxh";

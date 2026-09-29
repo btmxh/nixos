@@ -11,17 +11,17 @@ let
     mkIf
     ;
   inherit (config.mine) user;
-  cfg = config.mine.apps.dev.claude-code;
+  cfg = config.mine.apps.dev.opencode;
 in
 {
-  options.mine.apps.dev.claude-code = {
-    enable = mkEnableOption "Enable Claude Code";
+  options.mine.apps.dev.opencode = {
+    enable = mkEnableOption "Enable OpenCode";
   };
 
   config = mkIf cfg.enable {
     home-manager.users.${user.name} = {
       home.packages = [
-        inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+        inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode2
       ];
     };
   };

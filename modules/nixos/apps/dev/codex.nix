@@ -1,6 +1,8 @@
 {
   lib,
   config,
+  pkgs,
+  inputs,
   ...
 }:
 let
@@ -18,7 +20,9 @@ in
 
   config = mkIf cfg.enable {
     home-manager.users.${user.name} = {
-      programs.codex.enable = true;
+      home.packages = [
+        inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex
+      ];
     };
   };
 }

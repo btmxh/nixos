@@ -100,6 +100,7 @@
           ./modules/nixos/apps/dev/codex.nix
           ./modules/nixos/apps/dev/git.nix
           ./modules/nixos/apps/dev/llama-cpp.nix
+          ./modules/nixos/apps/dev/opencode.nix
           ./modules/nixos/apps/dev/rust.nix
           ./modules/nixos/apps/dev/docker.nix
           # ./modules/nixos/apps/dev/podman.nix
